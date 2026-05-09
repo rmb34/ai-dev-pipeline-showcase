@@ -1,174 +1,231 @@
 # How I Built a Multi-Agent Development Pipeline That Works Like a Full Engineering Team
-
-> From natural language requirements to automated commits — with specialized agents, safety guardrails, and zero context switching.
-
-**By Lucas da Silva Santos — Full Stack Developer | Co-founder at [Repetz](https://repetz.com.br)**
-
----
-
-I've been building production systems for over four years.
-
-A hospital performance platform with 10+ years in production, compliant with Brazilian federal healthcare regulatory standards, handling financial, clinical, and compliance data at scale.
-
-I know what production pressure looks like. I know what it costs when something breaks. And I know how much cognitive load it takes to go from a client's words to a reliable, tested, committed implementation.
-
-This year, I stopped managing that load manually.
-
-Instead, I architected a team.
-
----
-
-## The Problem I Was Solving
-
-The bottleneck in software development is rarely pure coding ability.
-
-It's context switching.
-
-Writing the technical spec. Implementing the backend. Building the frontend. Writing tests. Reviewing your own code. Committing safely.
-
-Each of those is a different mental mode. Switching between them is expensive. And when you're working across complex production systems — legacy codebases, strict security requirements, integrations with external systems — the cost of a context switch isn't just lost time. It's risk.
-
-I needed a way to stay at the architectural layer, where my judgment actually matters, and let the execution layer run without me managing every transition.
-
----
-
-## The Architecture: Specialization Over Generalization
-
-Most developers use AI as a single assistant that does everything. I took a different approach: each agent has one job, one context, and one set of tools.
-
-This mirrors how real engineering teams work. You wouldn't ask your backend engineer to write your Jira tickets and your test suite at the same time. The same principle applies here.
-
-The pipeline has up to **5 active agents**, depending on task complexity. Some run sequentially. Others run in parallel when the task allows it.
-
----
-
-### 🗂️ 1. Requirements Transcription Agent
-
-The entry point. Takes the client's request in natural language and converts it into a structured technical card — formatted for Jira or Trello.
-
-This is where "non-technical to technical" translation happens, before any code is written. No ambiguity. No lost context. No requirements that mean different things to different people.
-
----
-
-### 🧠 2. Planning Agent *(Orchestrator)*
-
-The most critical agent in the pipeline.
-
-Its job: read the technical card, understand the full project context, and delegate tasks to the most appropriate specialist agent.
-
-It knows the architecture. The stack. The legacy constraints. The business rules. The security requirements.
-
-It decides: Does this go to the frontend agent? Backend? Both in parallel? Does it need a review loop?
-
----
-
-### 🎨 3. Frontend Specialist Agent
-
-Handles all UI and client-side implementation. Has deep context about the project's frontend stack, component patterns, styling conventions, and UX standards.
-
----
-
-### ⚙️ 4. Backend Specialist Agent
-
-Handles server-side logic, database interactions, API design, and integration layers. Aware of the project's data model, security requirements, and legacy code patterns.
-
-In a system like the hospital platform — where you have 10+ years of production history, a public API consumed by third parties, and Spring Security managing access control across sensitive healthcare data — this context isn't optional. It's what separates safe changes from dangerous ones.
-
----
-
-### 🧪 5. Automated Testing Agent
-
-Generates and runs the test suite for whatever was implemented. Validates coverage, edge cases, and regression safety before anything reaches the commit stage.
-
----
-
-## The Model Strategy
-
-I use two different AI models in this pipeline — but never on the same task simultaneously.
-
-The deliberate design: **one model implements, the other reviews.**
-
-Different models have different blind spots. Using one to review the other creates a natural adversarial review layer — without human intervention at every step. The planning agent always runs on the best available model. Specialist agents run on the model most appropriate to the task.
-
----
-
-## The .md Directive System: Context as Infrastructure
-
-Every agent operates with two layers of context:
-
-**Global Directives** — a project-agnostic file containing:
-- Personal coding philosophy and standards
-- Architectural patterns applied across all projects
-- General conventions for naming, structure, and documentation
-
-**Project-Specific Directives** — a per-project file containing:
-- Project architecture and tech stack
-- Security rules and sensitive data handling
-- Legacy code constraints and known risks
-- Business rule database accessible to all agents via repository
-
-This is what made the approach viable for complex systems. Agents can't just know how to code. They need to know *this system's* rules, history, and constraints. The `.md` system is how that context becomes infrastructure.
-
----
-
-## Safety Guardrails
-
-This was non-negotiable. The pipeline has explicit protections built into every project-specific agent:
-
-- **Sensitive data protection** — credentials, tokens, and PII never exposed in output or commits
-- **Destructive Git command prevention** — force pushes, branch deletions, and history rewrites blocked at the instruction level
-- **Database access control** — agents operate with awareness of what they can and cannot touch
-- **Business rule enforcement** — a per-project knowledge base ensures domain constraints are respected
-
-Working on systems that handle clinical and financial data in production taught me that safety guardrails aren't optional. They're architecture.
-
----
-
-## The Full Flow
-
-```
-Client requirement (natural language)
-        ↓
-Requirements Transcription Agent
-→ Structured technical card (Jira/Trello)
-        ↓
-Planning Agent
-→ Task breakdown + agent delegation
-        ↓
-Frontend Agent + Backend Agent
-→ Sequential or parallel depending on task
-        ↓
-Automated Testing Agent
-→ Test generation + validation
-        ↓
-Cross-model Review
-→ One model reviews the other's output
-        ↓
-Automated Git commit (via Git CLI)
-```
-
----
-
-## What This Changes in Practice
-
-I built [Repetz](https://repetz.com.br) — a SaaS for pet shop management — using this pipeline throughout development. It went from requirements to production with paying customers, with a codebase I can maintain and evolve confidently.
-
-The difference isn't just speed. It's the quality of attention I bring to the parts that actually require human judgment — architecture decisions, product tradeoffs, security review, and client communication.
-
-The pipeline handles the transitions between execution modes. I stay at the layer where experience matters.
-
----
-
-## What's Next
-
-This pipeline is project-agnostic by design. The `.md` directive system makes it configurable for any stack, any domain, any legacy constraint.
-
-I'm continuing to evolve the agent specializations and the cross-model review strategy as the tooling matures.
-
-If you're building in this space or thinking about multi-agent architectures for software development, I'd love to connect.
-
----
-
-**Lucas da Silva Santos**  
-Full Stack Developer | Co-founder at [Repetz](https://repetz.com.br)  
-[LinkedIn](https://linkedin.com/in/lucas-da-silva-santos-a46879285)
+                                                                                                                                                                                                                                                                                  
+  > From natural language requirements to automated commits — with specialized agents,                                                                                                                                                                                            
+  > safety hooks, and zero context switching.                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                  
+  **By Lucas da Silva Santos — Full Stack Developer | Co-founder at [Repetz](https://repetz.com.br)**                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  ---                                                                                                                                                                                                                                                                             
+                  
+  I've been building production systems for over four years.                                                                                                                                                                                                                      
+  
+  A hospital performance platform with 10+ years in production, compliant with Brazilian                                                                                                                                                                                          
+  federal healthcare regulatory standards, handling financial, clinical, and compliance
+  data at scale. And [Repetz](https://repetz.com.br) — a SaaS for pet shop management                                                                                                                                                                                             
+  that went from zero to paying customers in production.                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                  
+  I know what production pressure looks like. I know what it costs when something breaks.                                                                                                                                                                                         
+  And I know how much cognitive load it takes to go from a client's words to a reliable,                                                                                                                                                                                          
+  tested, committed implementation.                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                  
+  This year, I stopped managing that load manually.                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                  
+  Instead, I architected a team.                                                                                                                                                                                                                                                  
+                  
+  ---
+
+  ## The Problem I Was Solving                                                                                                                                                                                                                                                    
+  
+  The bottleneck in software development is rarely pure coding ability.                                                                                                                                                                                                           
+                  
+  It's context switching.                                                                                                                                                                                                                                                         
+                  
+  Writing the technical spec. Implementing the backend. Building the frontend. Writing tests.                                                                                                                                                                                     
+  Reviewing your own code. Committing safely.
+                                                                                                                                                                                                                                                                                  
+  Each of those is a different mental mode. Switching between them is expensive. And when                                                                                                                                                                                         
+  you're working across complex production systems — legacy codebases, strict security
+  requirements, integrations with external systems — the cost of a context switch isn't                                                                                                                                                                                           
+  just lost time. It's risk.                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                  
+  I needed a way to stay at the architectural layer, where my judgment actually matters,                                                                                                                                                                                          
+  and let the execution layer run without me managing every transition.                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                  
+  ---             
+                                                                                                                                                                                                                                                                                  
+  ## The Architecture: Specialization Over Generalization                                                                                                                                                                                                                         
+  
+  Most developers use AI as a single assistant that does everything. I took a different                                                                                                                                                                                           
+  approach: each agent has one job, one context, and one set of tools.
+                                                                                                                                                                                                                                                                                  
+  This mirrors how real engineering teams work. You wouldn't ask your backend engineer to                                                                                                                                                                                         
+  write your Jira tickets and your test suite at the same time. The same principle applies.
+                                                                                                                                                                                                                                                                                  
+  The pipeline runs inside **Claude Code** as the orchestration layer. The specialization                                                                                                                                                                                         
+  happens through two mechanisms: **skills** and **typed subagents**.                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  ---             
+
+  ### Skills: Domain Knowledge as Reusable Modules                                                                                                                                                                                                                                
+  
+  Skills are context packages loaded on demand. Instead of putting all project knowledge                                                                                                                                                                                          
+  into every agent prompt, each skill carries exactly what one task type needs.
+                                                                                                                                                                                                                                                                                  
+  For Repetz alone, the active skill set includes:                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                  
+  - `repetz-design-system` — full token system, component patterns, visual rules                                                                                                                                                                                                  
+  - `repetz-new-feature` — end-to-end feature implementation workflow
+  - `repetz-code-review` — review criteria, security checklist, tenant/billing invariants                                                                                                                                                                                         
+  - `repetz-smoke-test` — post-deploy validation checklist                                                                                                                                                                                                                        
+  - `repetz-ux-analyst` — UX review against product standards                                                                                                                                                                                                                     
+  - `repetz-deploy` — deploy workflow with environment guardrails                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                  
+  Plus global skills: `frontend-design`, `tdd`, `debug`, `security-review`, `db-migration`,                                                                                                                                                                                       
+  and others that apply across all projects.                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                  
+  When I type `/repetz-new-feature`, the right context loads automatically. No copy-paste.                                                                                                                                                                                        
+  No prompt re-engineering. No lost state.                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                  
+  ---             
+
+  ### Typed Subagents: Parallel Execution Without Context Collapse                                                                                                                                                                                                                
+  
+  Claude Code's Agent tool dispatches typed subagents for independent workstreams.                                                                                                                                                                                                
+  These run in parallel when tasks allow it:
+                                                                                                                                                                                                                                                                                  
+  - `Explore` — read-only codebase search and mapping                                                                                                                                                                                                                             
+  - `Plan` — architecture and implementation strategy
+  - `feature-dev:code-architect` — designs the implementation blueprint                                                                                                                                                                                                           
+  - `feature-dev:code-explorer` — traces existing patterns before changes
+  - `feature-dev:code-reviewer` — validates the result against the plan                                                                                                                                                                                                           
+  - `test-writer` — test coverage for new behavior                                                                                                                                                                                                                                
+  - `db-migration` — schema changes with zero-downtime strategy                                                                                                                                                                                                                   
+  - `security-reviewer` — surfaces vulnerabilities before commit                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                  
+  The orchestrating agent decides what runs sequentially and what runs in parallel.                                                                                                                                                                                               
+  I stay at the decision layer.                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                  
+  ---             
+                                                                                                                                                                                                                                                                                  
+  ### MCP Servers: Real Tools, Not Simulated Actions                                                                                                                                                                                                                              
+  
+  Agents aren't limited to reading and writing files. They operate with integrated tooling                                                                                                                                                                                        
+  via MCP servers:
+                                                                                                                                                                                                                                                                                  
+  - **Playwright** — browser automation for UI validation and E2E testing                                                                                                                                                                                                         
+  - **Neon** — direct database access for schema inspection, branch creation, and query validation
+  - **Vercel** — deployment control, runtime logs, environment variable management                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                  
+  A feature implementation goes from code to browser validation to database schema check                                                                                                                                                                                          
+  to deploy — without leaving the pipeline.                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                  
+  ---             
+                                                                                                                                                                                                                                                                                  
+  ## Safety as Infrastructure, Not Instructions
+
+  Safety guardrails are the part that gets glossed over in most AI dev pipelines.                                                                                                                                                                                                 
+  They're also the part that matters most in production.
+                                                                                                                                                                                                                                                                                  
+  My pipeline enforces safety through **hooks** — shell scripts that execute automatically                                                                                                                                                                                        
+  on specific agent events, independent of what the agent decides to do.                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                  
+  **Global hooks** (apply to all projects):
+  - `block-dangerous-git.sh` — blocks `git push --force`, `git reset --hard`, branch deletions                                                                                                                                                                                    
+  - `lint-on-save.sh` — runs linter on every file write                                                                                                                                                                                                                           
+  - `run-tests-on-stop.sh` — runs the test suite when the agent finishes                                                                                                                                                                                                          
+  **Project-specific hooks** (Repetz example):                                                                                                                                                                                                                                    
+  - SQL DDL outside `PRODUCTION_MIGRATION.sql` → blocked                                                                                                                                                                                                                          
+  - `console.log` in TypeScript files → blocked                                                                                                                                                                                                                                   
+  - New dashboard route without middleware registration → flagged                                                                                                                                                                                                                 
+  - Force push or hard reset → blocked regardless of agent reasoning                                                                                                                                                                                                              
+  - Package version changes → flagged for review                                                                                                                                                                                                                                  
+  - Plan required before implementation on complex tasks → enforced                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                  
+  Working on systems that handle healthcare and financial data taught me that                                                                                                                                                                                                     
+  "the agent knows better" is not a safety strategy. Hooks don't trust the agent.                                                                                                                                                                                                 
+  They enforce rules at the infrastructure level.                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                  
+  ---                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  ## The Context System: Layered Directives                                                                                                                                                                                                                                       
+                                           
+  Every agent operates with two layers of context:
+                                                                                                                                                                                                                                                                                  
+  **Global directives** (`~/.claude/CLAUDE.md`) — project-agnostic:
+  - Coding philosophy and standards                                                                                                                                                                                                                                               
+  - Architectural patterns applied across all projects
+  - Commit conventions, naming rules, comment policy                                                                                                                                                                                                                              
+                                                    
+  **Project-specific directives** — per-project files that cover:                                                                                                                                                                                                                 
+  - Architecture, stack, and module boundaries                                                                                                                                                                                                                                    
+  - Security rules and tenant isolation invariants                                                                                                                                                                                                                                
+  - Legacy constraints and known risks                                                                                                                                                                                                                                            
+  - Business rule database (`docs/agents/features/` — one file per domain)                                                                                                                                                                                                        
+  - Backend/frontend/testing contracts (`AGENTS.backend.md`, `AGENTS.frontend.md`, `AGENTS.testing.md`)
+                                                                                                                                                                                                                                                                                  
+  This is what made the approach viable for complex systems. Agents don't just know                                                                                                                                                                                               
+  how to code. They know *this system's* rules, history, and constraints.                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                  
+  ---                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  ## The Review Layer                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  Code review happens through a cross-agent pattern: one agent implements,
+  a separate `feature-dev:code-reviewer` agent reviews the result against the plan                                                                                                                                                                                                
+  and coding standards.                                                           
+                                                                                                                                                                                                                                                                                  
+  For high-stakes changes, a second-opinion pass uses `codex:rescue` — a different
+  model evaluating the same output independently. Different models have different                                                                                                                                                                                                 
+  blind spots. The disagreement surface is where the real issues are.            
+                                                                                                                                                                                                                                                                                  
+  ---                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                  
+  ## The Full Flow                                                                                                                                                                                                                                                                
+                  
+  Natural language requirement
+          ↓                                                                                                                                                                                                                                                                       
+  Skill loaded for task type (e.g., /repetz-new-feature)
+          ↓                                                                                                                                                                                                                                                                       
+  Plan agent → implementation blueprint
+          ↓                                                                                                                                                                                                                                                                       
+  Parallel subagents (code-explorer + code-architect)
+  → Understand existing patterns → Design the change                                                                                                                                                                                                                              
+          ↓                                                                                                                                                                                                                                                                       
+  Implementation (frontend and/or backend subagents)                                                                                                                                                                                                                              
+  → Hooks enforce rules at every file write                                                                                                                                                                                                                                       
+          ↓                                                                                                                                                                                                                                                                       
+  test-writer + security-reviewer
+  → Coverage + vulnerability check                                                                                                                                                                                                                                                
+          ↓       
+  code-reviewer (cross-agent review)                                                                                                                                                                                                                                              
+  → Result validated against plan and standards                                                                                                                                                                                                                                   
+          ↓
+  MCP validation (Playwright E2E, Neon schema check, Vercel deploy)                                                                                                                                                                                                               
+          ↓                                                                                                                                                                                                                                                                       
+  Automated commit (Conventional Commits format)
+                                                                                                                                                                                                                                                                                  
+  ---             
+                                                                                                                                                                                                                                                                                  
+  ## What This Changes in Practice
+
+  I built [Repetz](https://repetz.com.br) using this pipeline throughout development —                                                                                                                                                                                            
+  from first commit to paying customers in production. I also use it on a hospital
+  performance platform with a decade of production history, where a bad change doesn't                                                                                                                                                                                            
+  just break a feature — it affects clinical and financial operations for real patients.                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                  
+  The difference isn't just speed. It's the quality of attention I bring to the parts                                                                                                                                                                                             
+  that actually require human judgment — architecture decisions, product tradeoffs,                                                                                                                                                                                               
+  security review, and client communication.                                                                                                                                                                                                                                      
+                  
+  The pipeline handles the transitions between execution modes. I stay at the layer                                                                                                                                                                                               
+  where experience matters.
+                                                                                                                                                                                                                                                                                  
+  ---             
+
+  ## What's Next
+
+  The system continues to evolve with the tooling. Current focus: tighter feedback loops                                                                                                                                                                                          
+  between deploy validation and agent context, and expanding the skill library
+  for domain-specific review patterns.                                                                                                                                                                                                                                            
+                  
+  The approach is project-agnostic by design. The directive system and hook infrastructure                                                                                                                                                                                        
+  configure to any stack, any domain, any legacy constraint.
+                                                                                                                                                                                                                                                                                  
+  If you're building in this space or thinking about multi-agent architectures for                                                                                                                                                                                                
+  production software development, I'd love to connect.                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                  
+  ---             
+
+  **Lucas da Silva Santos**
+  Full Stack Developer | Co-founder at [Repetz](https://repetz.com.br)
+  [LinkedIn](https://linkedin.com/in/lucas-da-silva-santos-a46879285)
