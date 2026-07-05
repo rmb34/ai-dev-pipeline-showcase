@@ -7,7 +7,7 @@
                                                                                                                                                                                                                                                                                   
   ---                                                                                                                                                                                                                                                                             
                   
-  I've been building production systems for over four years.                                                                                                                                                                                                                      
+  I've been building production systems for 5 years.                                                                                                                                                                                                                      
   
   A hospital performance platform with 10+ years in production, compliant with Brazilian                                                                                                                                                                                          
   federal healthcare regulatory standards, handling financial, clinical, and compliance
